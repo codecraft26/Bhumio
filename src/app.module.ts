@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config/dist';
 import { DocModule } from './doc/doc.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { MailModule } from './mail/mail.module';
 @Module({
   imports: [UserModule, PoweruserModule, SupportDeskModule, AdminModule,
     ConfigModule.forRoot({
@@ -25,8 +27,18 @@ import { DocModule } from './doc/doc.module';
       inject:[ConfigService]
     }),
     UserModule,
-    DocModule
-   
+    DocModule,
+    MailerModule.forRoot({
+      transport:{
+        host:'',
+        auth:{
+          user:' ',
+          pass:''
+        }
+        
+      }
+    }),
+    MailModule
   
   
   ],

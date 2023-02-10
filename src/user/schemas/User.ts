@@ -8,6 +8,9 @@ export type UserDocument=User & Document
 export class User{
 
         name:string
+
+        email:string
+        password:string
         role:{
                 type:role
                 default:role.user
