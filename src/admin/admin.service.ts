@@ -1,26 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
+import { Injectable, Post } from '@nestjs/common';
+import { User } from 'src/user/schemas/User';
+
 
 @Injectable()
 export class AdminService {
-  create(createAdminDto: CreateAdminDto) {
-    return 'This action adds a new admin';
-  }
 
-  findAll() {
-    return `This action returns all admin`;
-  }
+      @Post('user')
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
-  }
+      createUser(user:User){
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
-  }
+          
 
-  remove(id: number) {
-    return `This action removes a #${id} admin`;
-  }
+      }
+
+
+ 
 }
