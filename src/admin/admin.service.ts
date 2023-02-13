@@ -1,13 +1,29 @@
 import { Injectable, Post } from '@nestjs/common';
-import { User } from 'src/user/schemas/User';
+import { InjectModel } from '@nestjs/mongoose';
+import { model, Model } from 'mongoose';
+import { User, UserDocument } from 'src/user/schemas/User';
+import { CreateAdminDto} from './dto/create-admin.dto';
 
 
 @Injectable()
 export class AdminService {
 
-      @Post('user')
 
-      createUser(user:User){
+
+      constructor(@InjectModel(User.name) private userModel:Model<UserDocument>){
+
+      }
+
+     
+
+      createUser(CreateAdminDto:CreateAdminDto){
+
+            const model=new this.userModel();
+            model.name=CreateAdminDto.name
+            model.email=CreateAdminDto.email
+            model.password=CreateAdminDto.password
+           
+
 
           
 

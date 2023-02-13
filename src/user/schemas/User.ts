@@ -25,7 +25,9 @@ export class User{
 }
 
 
-enum  role{
+
+ export enum  role{
+
 
         admin, 
         user,

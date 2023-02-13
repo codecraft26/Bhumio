@@ -11,6 +11,7 @@ import { ConfigService } from '@nestjs/config/dist';
 import { DocModule } from './doc/doc.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { MailModule } from './mail/mail.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [UserModule, PoweruserModule, SupportDeskModule, AdminModule,
     ConfigModule.forRoot({
@@ -38,7 +39,8 @@ import { MailModule } from './mail/mail.module';
         
       }
     }),
-    MailModule
+    MailModule,
+    AuthModule
   
   
   ],
