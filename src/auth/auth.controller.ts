@@ -22,6 +22,8 @@ import { CONSTANTS } from 'src/Constants';
     }
 
 
+
+    //only admin have access to create poweruser and user
     @Post('/createuser')
     @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.ADMIN))
     signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
@@ -29,8 +31,11 @@ import { CONSTANTS } from 'src/Constants';
     }
 
 
+
+    // only poweuser has an access to get all the transection
+
     @Get('/users')
-    @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.ADMIN))
+    @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.POWERUSER))
     getAllUsers():Promise<User[]>{
       return this.authService.getAllUser();
 

@@ -2,8 +2,14 @@ export const CONSTANTS ={
     ROLES:{
         ADMIN:"admin",
         USER:"user",
-        POWERUSER:"powerUser",
-        SUPPORTDESK:"supportDesk"
+        POWERUSER:"poweruser",
+        SUPPORTDESK:"supportdesk"
+    },
+
+    PRODUCTTYPE:{
+        GADGETS:"gadgets",
+        CLOTHES:"clothes",
+        SNACKS:"snacks"
 
     }
 }
