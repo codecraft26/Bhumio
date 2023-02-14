@@ -1,7 +1,6 @@
-
-import { Inject, Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { User } from "src/user/schema/user.schema";
+import { Injectable } from '@nestjs/common';
+import { User } from 'src/admin/user.entity';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService{
     constructor(private readonly jwtService:JwtService){
