@@ -1,11 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import { type } from "os"
 
 
 
 
 export type UserDocument=User & Document
-@Schema()
+@Schema({
+        timestamps:true
+})
 export class User{
         @Prop()
         name:string
@@ -18,12 +19,6 @@ export class User{
 
       
 }
-
-
-
-
-
-
 
 
 
