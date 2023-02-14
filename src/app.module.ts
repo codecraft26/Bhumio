@@ -1,19 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { PoweruserModule } from './poweruser/poweruser.module';
-import { SupportDeskModule } from './support-desk/support-desk.module';
-import { AdminModule } from './admin/admin.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config/dist';
-import { DocModule } from './doc/doc.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { MailModule } from './mail/mail.module';
+import { UserModule } from './user/user.module';
+import { UserSchema } from './user/schema/user.schema';
 import { AuthModule } from './auth/auth.module';
 @Module({
-  imports: [UserModule, PoweruserModule, SupportDeskModule, AdminModule,
+  imports: [
     ConfigModule.forRoot({
       isGlobal:true,
       envFilePath:[".local.env"]
@@ -25,10 +21,14 @@ import { AuthModule } from './auth/auth.module';
           uri:ConfigService.get("MONGO_URL")
 
       }),
+
+
       inject:[ConfigService]
     }),
+
+
+    MongooseModule.forFeature([{name:"user",schema:UserSchema}]),
     UserModule,
-    DocModule,
     MailerModule.forRoot({
       transport:{
         host:'',
@@ -39,8 +39,8 @@ import { AuthModule } from './auth/auth.module';
         
       }
     }),
-    MailModule,
-    AuthModule
+    AuthModule,
+   
   
   
   ],
