@@ -1,11 +1,3 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { Product } from './schema/product.schema';
-import { Request } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { User } from 'src/auth/schema/user.schema';
 
 @Injectable()
 export class ProductService {
@@ -58,3 +50,4 @@ export class ProductService {
 
 
 }
+
