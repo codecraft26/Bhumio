@@ -7,6 +7,8 @@ import { ConfigService } from '@nestjs/config/dist';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { NodemailerModule } from './nodemailer/nodemailer.module';
+import { NestModule } from '@nestjs/common';
+import { MiddlewareConsumer } from '@nestjs/common';
 
 @Module({
   imports: [

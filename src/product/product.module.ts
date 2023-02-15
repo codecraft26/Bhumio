@@ -1,15 +1,26 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { Mongoose } from 'mongoose';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductSchema } from './schema/product.schema';
 import { Product } from './schema/product.schema';
+import { AuthModule } from 'src/auth/auth.module';
+import { NodemailerService } from 'src/nodemailer/nodemailer.service';
 
 @Module({
 
-  imports:[MongooseModule.forFeature([{name:Product.name,schema:ProductSchema}])],
+  imports:[AuthModule,MongooseModule.forFeature([{name:Product.name,schema:ProductSchema}])],
   controllers: [ProductController],
-  providers: [ProductService]
+  providers: [ProductService],
+  exports:[ProductService]
 })
-export class ProductModule {}
+
+
+// export class ProductModule implements NestModule {
+
+//   configure(consumer:MiddlewareConsumer){
+//     consumer.apply(DeleteAccessMiddleware).forRoutes('product')
+//   }
+// }
+export class ProductModule{}
