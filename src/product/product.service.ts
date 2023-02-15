@@ -16,8 +16,9 @@ export class ProductService {
 
   async createProduct(CreateProductDto:CreateProductDto):Promise<Product>{
 
+      
 
-    const createProduct= await new this.productModel(CreateProductDto)
+    const createProduct= new this.productModel({...CreateProductDto})
     return createProduct.save();
     
 
@@ -45,6 +46,12 @@ export class ProductService {
 
 
   }
+
+  async getPosts() {
+    return this.productModel.find().populate(' users');
+  }
+
+
 
 
 
