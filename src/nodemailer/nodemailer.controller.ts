@@ -6,4 +6,9 @@ import { NodemailerService } from './nodemailer.service';
 export class NodemailerController {
   constructor(private readonly nodemailerService: NodemailerService) {}
 
+  @Get()
+  SendEail(){
+    return this.nodemailerService.sendUserConfirmation('gaman0221@gmail.com')
+  }
+
 }

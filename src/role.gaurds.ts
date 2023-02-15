@@ -12,10 +12,15 @@ export class RoleGaurd implements CanActivate{
               
         const ctx=context.switchToHttp();
         const request:any=ctx.getRequest<Request>();
-
-        return this.rolePassed==request.user.role
+        const pram=request.params;
+        console.log(typeof(pram.id))
+        
+           
+        return this.rolePassed==request.user.id
 
         
     }
 
 }
+
+

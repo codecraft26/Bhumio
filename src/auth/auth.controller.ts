@@ -25,7 +25,7 @@ import { CONSTANTS } from 'src/Constants';
 
     //only admin have access to create poweruser and user
     @Post('/createuser')
-    @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.ADMIN))
+    // @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.ADMIN))
     signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
       return this.authService.signUp(signUpDto);
     }
@@ -40,5 +40,13 @@ import { CONSTANTS } from 'src/Constants';
       return this.authService.getAllUser();
 
     }
+
+    @Get(':id')
+
+    getUserByid(@Param('id') id:string):Promise<User>{
+       return this.authService.getUserById(id)
+    }
+
+   
  
 }

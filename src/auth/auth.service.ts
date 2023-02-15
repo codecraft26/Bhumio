@@ -71,4 +71,13 @@ export class AuthService {
   
     }
 
+
+    getUserById(id:String):Promise<User>{
+
+
+      return this.userModel.findById(id).exec();
+
+    }
+   
+
 }
