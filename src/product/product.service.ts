@@ -17,7 +17,7 @@ export class ProductService {
   async createProduct(CreateProductDto:CreateProductDto):Promise<Product>{
 // const user=
 
-    const createProduct= await new this.productModel({...CreateProductDto,createdby:user})
+    const createProduct= await new this.productModel(CreateProductDto)
     return createProduct.save();
     
 
