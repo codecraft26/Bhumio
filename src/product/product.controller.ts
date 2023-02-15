@@ -14,14 +14,15 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post('create')
-  @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.USER))
-  createProduct( @Body() CreateProductDto:CreateProductDto):Promise<Product>{
+  @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.ADMIN))
+  createProduct(@Request() req, @Body() CreateProductDto:CreateProductDto):Promise<Product>{
     // CreateProductDto.createdBy=req.user
-    return this.productService.createProduct(CreateProductDto)
+    return this.productService.createProduct({...CreateProductDto,createdBy:req.user})
 
   }
   
-
+  @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.SUPPORTDESK ||CONSTANTS.ROLES.USER))
+  
   @Get('allproducts')
   getAllProduct():Promise<Product[]>{
     return this.productService.getAllproduct();
@@ -38,6 +39,17 @@ export class ProductController {
     return this.productService.
     updateProduct(id,UpdateProductDto)
   }
+
+
+
+ @Get("/web")
+ @UseGuards(AuthGuard("jwt"),new RoleGaurd(CONSTANTS.ROLES.ADMIN))
+  webDeveloperData(@Request() req):string{
+    return "this is private data for web developer"+JSON.stringify(req.user)
+  }
+  
+
+  
 
 
  
