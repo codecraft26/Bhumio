@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { NodemailerService } from './nodemailer.service';
-import { NodemailerController } from './nodemailer.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 
+import { NodemailerService } from './nodemailer.service';
 @Module({
   imports:[
 
@@ -15,28 +14,29 @@ import { join } from 'path';
         // transport: config.get("MAIL_TRANSPORT"),
         // or
         transport: {
-          host:'smtp.gmail.com',
-          port:'995',
+          host: config.get('MAIL_HOST'),
           secure: false,
-          socketTimeout:6000,
           auth: {
-            user: 'codescraft26@gmail.com',
-            pass: 'amangupta2626A',
+            user: config.get('MAIL_USER'),
+            pass: config.get('MAIL_PASSWORD'),
           },
-          
         },
         defaults: {
-          from: `"No Reply" <${"gaman0221@getMaxListeners.com"}>`,
-        }
-       
-      
+          from: `"No Reply" <${config.get('MAIL_FROM')}>`,
+        },
+        template: {
+          dir: join(__dirname, 'templates'),
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
+        },
       }),
       inject: [ConfigService],
     }),
   
 
   ],
-  controllers: [NodemailerController],
   providers: [NodemailerService],
   exports:[NodemailerService]
 })
