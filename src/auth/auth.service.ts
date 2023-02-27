@@ -7,6 +7,9 @@ import { SignUpDto } from './dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { UnauthorizedException } from '@nestjs/common';
+import { EventEmitter2,OnEvent } from '@nestjs/event-emitter';
+import { Logger } from '@nestjs/common';
+import { NodemailerService } from 'src/nodemailer/nodemailer.service';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +17,11 @@ export class AuthService {
     @InjectModel(User.name)
     private userModel: Model<User>,
     private jwtService: JwtService,
+    private readonly eventEmitter: EventEmitter2,
+    private readonly NodeMailerService: NodemailerService,
+    
   ) {}
+  private readonly logger = new Logger(AuthService.name);
 
 
 
@@ -32,8 +39,21 @@ export class AuthService {
     });
 
     const token = this.jwtService.sign({ id: user._id });
+      this.eventEmitter.emit('user.created', { email, token });
+      this.logger.log('user created');
 
     return { token };
+  }
+
+
+
+  @OnEvent('user.created')
+  handleUserCreated(event: { email: string; token: string }) {
+
+      this.NodeMailerService.sendUserConfirmation(event.email, event.token);
+      this.logger.log('mail sent');
+
+
   }
 
 
