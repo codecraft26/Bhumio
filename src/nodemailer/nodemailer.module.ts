@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { join } from 'path';
 
 import { NodemailerService } from './nodemailer.service';
+import { text } from 'stream/consumers';
 @Module({
   imports:[
 
@@ -20,17 +19,17 @@ import { NodemailerService } from './nodemailer.service';
             user: config.get('MAIL_USER'),
             pass: config.get('MAIL_PASSWORD'),
           },
+        
         },
         defaults: {
           from: `"No Reply" <${config.get('MAIL_FROM')}>`,
-        },
+        }
+        
+        ,
         template: {
-          dir: join(__dirname, 'templates'),
-          adapter: new HandlebarsAdapter(),
-          options: {
-            strict: true,
-          },
-        },
+          dir: __dirname + '/templates/'},
+          
+       
       }),
       inject: [ConfigService],
     }),
