@@ -7,8 +7,9 @@ import { ConfigService } from '@nestjs/config/dist';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { NodemailerModule } from './nodemailer/nodemailer.module';
-import { NestModule } from '@nestjs/common';
-import { MiddlewareConsumer } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
+
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MiddlewareConsumer } from '@nestjs/common';
 
       inject:[ConfigService]
     }),
+    EventEmitterModule.forRoot(),ScheduleModule.forRoot(),
     AuthModule,
     ProductModule,
     NodemailerModule,
