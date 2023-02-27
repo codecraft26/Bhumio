@@ -8,24 +8,21 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleGaurd } from 'src/role.gaurds';
 import { CONSTANTS } from 'src/Constants';
-import { User } from 'src/auth/schema/user.schema';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService,) {}
 
   @Post('create')
-  @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.USER))
+  @UseGuards(AuthGuard('jwt'))
   createProduct(@Request() req, @Body() CreateProductDto:CreateProductDto):Promise<Product>{
-    // CreateProductDto.createdBy=req.user
     return this.productService.createProduct({...CreateProductDto,createdBy:req.user})
 
   }
 
 
   
-  @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.SUPPORTDESK ||CONSTANTS.ROLES.USER))
-  
+  @UseGuards(AuthGuard('jwt'))
   @Get('allproducts')
   getAllProduct():Promise<Product[]>{
     return this.productService.getAllproduct();
@@ -46,32 +43,17 @@ export class ProductController {
     updateProduct(id,UpdateProductDto)
   }
 
-
-
- @Get("/web")
-  @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.USER))
-
-  webDeveloperData(@Request() req):string{
-    return "this is private data for web developer"+JSON.stringify(req.user)
+  @Get('user/:id')
+  getProductById(@Param('id') id:string){
+    return this.productService.getProductsByUser(id)
   }
-  
 
-  // @Get(':id')
-  // getProductByid(@Param('id') id:string):Promise<Product>{
 
-  //   return this.productService.getProductById(id);
-
-  // }
-  // @Get(':id')
-
-  @Get(':id')
-  getProductUser(@Param('id') id:string):Promise<User>{
-
-   return this.productService.getUser(id)
 
 
   
-  }
+
+
 
   
   

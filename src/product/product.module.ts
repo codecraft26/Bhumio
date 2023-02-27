@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { forwardRef, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { Mongoose } from 'mongoose';
@@ -17,10 +17,4 @@ import { NodemailerService } from 'src/nodemailer/nodemailer.service';
 })
 
 
-// export class ProductModule implements NestModule {
-
-//   configure(consumer:MiddlewareConsumer){
-//     consumer.apply(DeleteAccessMiddleware).forRoutes('product')
-//   }
-// }
 export class ProductModule{}

@@ -47,12 +47,7 @@ async getUser(id:string):Promise<User>{
     console.log(objectIdString)
     return this.authService.getUserById(objectIdString)
 
-    
-    
-    
  
- 
-    
 }
 
 
@@ -79,6 +74,13 @@ async getUser(id:string):Promise<User>{
     return this.productModel.deleteOne({_id:id}).exec();
 
 
+  }
+
+
+
+  async getProductsByUser(id:string):Promise<Product[]>{
+      
+      return this.productModel.find({createdBy:id}).exec();
   }
 
  

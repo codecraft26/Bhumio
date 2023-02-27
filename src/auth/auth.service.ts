@@ -10,6 +10,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { Logger } from '@nestjs/common';
 import { NodemailerService } from 'src/nodemailer/nodemailer.service';
+import { Product } from 'src/product/schema/product.schema';
 
 @Injectable()
 export class AuthService {
@@ -46,7 +47,7 @@ export class AuthService {
     this.logger.log('mail sent');
   }
 
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto): Promise<{token}> {
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
@@ -63,7 +64,7 @@ export class AuthService {
 
     const token = this.jwtService.sign({ id: user._id });
 
-    return { token };
+    return  { token };
   }
 
   //service for update password
@@ -78,6 +79,13 @@ export class AuthService {
       return userd.save();
     }
   }
+
+
+  // async productCreatd(id: string): Promise<Product> {
+
+
+
+  // }
 
   async getAllUser(): Promise<User[]> {
     return this.userModel.find().exec();
