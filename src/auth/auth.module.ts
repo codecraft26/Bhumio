@@ -8,10 +8,12 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
+import { forwardRef } from '@nestjs/common';
 
 import { UserSchema } from './schema/user.schema';
 import { NodemailerService } from 'src/nodemailer/nodemailer.service';
 import { NodemailerModule } from 'src/nodemailer/nodemailer.module';
+import { ProductModule } from 'src/product/product.module';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -28,8 +30,7 @@ import { NodemailerModule } from 'src/nodemailer/nodemailer.module';
     }),
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
 
-    NodemailerModule
-  
+    NodemailerModule,
   
 
 ],
