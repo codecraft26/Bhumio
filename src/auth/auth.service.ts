@@ -7,7 +7,7 @@ import { SignUpDto } from './dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { UnauthorizedException } from '@nestjs/common';
-import { EventEmitter2,OnEvent } from '@nestjs/event-emitter';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { Logger } from '@nestjs/common';
 import { NodemailerService } from 'src/nodemailer/nodemailer.service';
 
@@ -19,13 +19,8 @@ export class AuthService {
     private jwtService: JwtService,
     private readonly eventEmitter: EventEmitter2,
     private readonly NodeMailerService: NodemailerService,
-    
   ) {}
   private readonly logger = new Logger(AuthService.name);
-
-
-
-
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { name, email, password } = signUpDto;
@@ -39,29 +34,17 @@ export class AuthService {
     });
 
     const token = this.jwtService.sign({ id: user._id });
-      this.eventEmitter.emit('user.created', { email, token });
-      this.logger.log('user created');
+    this.eventEmitter.emit('user.created', { email, token });
+    this.logger.log('user created');
 
     return { token };
   }
 
-
-
   @OnEvent('user.created')
   handleUserCreated(event: { email: string; token: string }) {
-
-      this.NodeMailerService.sendUserConfirmation(event.email, event.token);
-      this.logger.log('mail sent');
-
-
+    this.NodeMailerService.sendUserConfirmation(event.email, event.token);
+    this.logger.log('mail sent');
   }
-
-
-
-
-
-
-
 
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { email, password } = loginDto;
@@ -83,21 +66,24 @@ export class AuthService {
     return { token };
   }
 
-
-
-
-    async getAllUser():Promise<User[]>{
-      return this.userModel.find().exec();
-  
+  //service for update password
+  async changePassword(id, signUpDto: SignUpDto): Promise<User> {
+    const { email, password } = signUpDto;
+    const userd = await this.userModel.findOne({ email });
+    if (!userd) {
+      throw new UnauthorizedException('Invalid email or password');
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      userd.password = hashedPassword;
+      return userd.save();
     }
+  }
 
+  async getAllUser(): Promise<User[]> {
+    return this.userModel.find().exec();
+  }
 
-    getUserById(id:String):Promise<User>{
-
-
-      return this.userModel.findById(id).exec();
-
-    }
-   
-
+  getUserById(id: String): Promise<User> {
+    return this.userModel.findById(id).exec();
+  }
 }
