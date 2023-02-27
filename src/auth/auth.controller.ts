@@ -15,7 +15,7 @@ import { CONSTANTS } from 'src/Constants';
   
    
     
-  
+    //anyone can access this route including admin and poweruser and also user
     @Get('/login')
     login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
       return this.authService.login(loginDto);
@@ -23,9 +23,9 @@ import { CONSTANTS } from 'src/Constants';
 
 
 
-    //only admin have access to create poweruser and user
+    //only admin have access to create poweruser 
     @Post('/createuser')
-    // @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.ADMIN))
+    @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.POWERUSER))
     signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
       return this.authService.signUp(signUpDto);
     }
@@ -33,19 +33,28 @@ import { CONSTANTS } from 'src/Constants';
 
 
     // only poweuser has an access to get all the transection
-
     @Get('/users')
     @UseGuards(AuthGuard('jwt'),new RoleGaurd(CONSTANTS.ROLES.POWERUSER))
     getAllUsers():Promise<User[]>{
       return this.authService.getAllUser();
 
     }
+    
 
-    @Get(':id')
 
-    getUserByid(@Param('id') id:string):Promise<User>{
-       return this.authService.getUserById(id)
+    @Post('/updateuser/:id')
+
+    @UseGuards(AuthGuard('jwt'))
+    updatePassword(@Param('id') id:string,@Body() signUpDto: SignUpDto):Promise<User>{
+      return this.authService.changePassword(id,signUpDto);
+
     }
+
+
+
+
+
+   
 
    
  
