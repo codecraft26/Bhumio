@@ -40,6 +40,8 @@ export class AuthService {
 
     return { token };
   }
+  
+  // when admin created user he send a confirmation mail via mail
 
   @OnEvent('user.created')
   handleUserCreated(event: { email: string; token: string }) {
